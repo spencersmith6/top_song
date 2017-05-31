@@ -19,9 +19,26 @@ def get_top_video(song, artist):
     url = "https://www.youtube.com/results?search_query=" + query
     response = urllib2.urlopen(url)
     html = response.read()
-    soup = BeautifulSoup(html, "lxml")
+    soup = BeautifulSoup(html)
     youtube_url = soup.findAll(attrs={'class':'yt-uix-tile-link'})[0]['href']
     return youtube_url.split("v=")[1]
+
+
+def make_html():
+    html = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="main.css">
+        <title>Top Songs</title>
+    </head>
+    <body>
+    {}
+    </body>
+    </html>"""
+    return html
+
 
 
 app = Flask(__name__)
@@ -43,13 +60,18 @@ def results():
 
     youtube_id = get_top_video(song, artist)
 
+    html = make_html()
 
-    return """
+    content = """
     <p>On <b>{d}-{m}-{y}</b>, the top song was <b>{song}</b> by <b>{artist}</b>.</br>
     Check it out below!</p>
-    <iframe width="50%" height="50%" src="http://www.youtube.com/embed/{id}" frameborder="0" allowfullscreen></iframe>
+    <div class="video-container">
+        <iframe width="560" height="315" src="http://www.youtube.com/embed/{id}" frameborder="0" allowfullscreen=""></iframe>
+    </div>
     <p><a href="../">Go back</a></p>
     """.format(d=d, m=m, y=y, song=song, artist=artist, id=youtube_id)
+
+    return html.format(content)
 
 
 if __name__ == '__main__':
