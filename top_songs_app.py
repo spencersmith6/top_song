@@ -68,7 +68,7 @@ def results():
     <div class="video-container">
         <iframe src="http://www.youtube.com/embed/{id}" allowfullscreen></iframe>
     </div>
-    <p><a href="../" class="button">Go back</a></p>
+    <p><button onclick="javascript:history.back()">Go back</a></p>
     """.format(d=d, m=m, y=y, song=song, artist=artist, id=youtube_id)
 
     return html.format(content)
