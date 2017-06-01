@@ -78,4 +78,4 @@ if __name__ == '__main__':
     with open('hot100_dict.p', 'r') as f:
         hot100 = pickle.load(f)
 
-    app.run(host='0.0.0.0', port=8000)
+    app.run(host='0.0.0.0', port=5000)
