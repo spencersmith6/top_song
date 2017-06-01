@@ -30,7 +30,7 @@ def make_html():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="main.css">
+        <link rel=stylesheet type=text/css href="static/main.css">
         <title>Top Songs</title>
     </head>
     <body>
@@ -66,7 +66,7 @@ def results():
     <p>On <b>{d}-{m}-{y}</b>, the top song was <b>{song}</b> by <b>{artist}</b>.</br>
     Check it out below!</p>
     <div class="video-container">
-        <iframe width="560" height="315" src="http://www.youtube.com/embed/{id}" frameborder="0" allowfullscreen=""></iframe>
+        <iframe src="http://www.youtube.com/embed/{id}" allowfullscreen></iframe>
     </div>
     <p><a href="../">Go back</a></p>
     """.format(d=d, m=m, y=y, song=song, artist=artist, id=youtube_id)
