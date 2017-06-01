@@ -63,12 +63,12 @@ def results():
     html = make_html()
 
     content = """
-    <p>On <b>{d}-{m}-{y}</b>, the top song was <b>{song}</b> by <b>{artist}</b>.</br>
+    <p>On <b>{d}-{m}-{y}</b>, the top song was <b>{song}</b> by <b>{artist}</b>.<br>
     Check it out below!</p>
     <div class="video-container">
         <iframe src="http://www.youtube.com/embed/{id}" allowfullscreen></iframe>
     </div>
-    <p><button onclick="javascript:history.back()">Go back</a></p>
+    <p><button onclick="javascript:history.back()">Go back</button></p>
     """.format(d=d, m=m, y=y, song=song, artist=artist, id=youtube_id)
 
     return html.format(content)
