@@ -19,7 +19,7 @@ def get_top_video(song, artist):
     url = "https://www.youtube.com/results?search_query=" + query
     response = urllib2.urlopen(url)
     html = response.read()
-    soup = BeautifulSoup(html)
+    soup = BeautifulSoup(html, "html.parser")
     youtube_url = soup.findAll(attrs={'class':'yt-uix-tile-link'})[0]['href']
     return youtube_url.split("v=")[1]
 
