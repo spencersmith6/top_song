@@ -31,10 +31,10 @@ def make_html():
     <head>
         <meta charset="UTF-8">
         <link rel=stylesheet type=text/css href="static/main.css">
-        <title>Top Songs</title>
+        <title>{song} - {artist}</title>
     </head>
     <body>
-    {}
+    {body}
     </body>
     </html>"""
     return html
@@ -62,7 +62,7 @@ def results():
 
     html = make_html()
 
-    content = """
+    body = """
     <p>On <b>{d}-{m}-{y}</b>, the top song was <b>{song}</b> by <b>{artist}</b>.<br>
     Check it out below!</p>
     <div class="video-container">
@@ -71,7 +71,7 @@ def results():
     <p><button onclick="javascript:history.back()">Go back</button></p>
     """.format(d=d, m=m, y=y, song=song, artist=artist, id=youtube_id)
 
-    return html.format(content)
+    return html.format(song=song, artist=artist, body=body)
 
 
 if __name__ == '__main__':
