@@ -31,7 +31,7 @@ def make_html():
     <head>
         <meta charset="UTF-8">
         <link rel=stylesheet type=text/css href="static/main.css">
-        <title>{song} - {artist}</title>
+        <title>Nostalgia -> {song} - {artist}</title>
     </head>
     <body>
     {body}
