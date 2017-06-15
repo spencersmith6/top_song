@@ -29,6 +29,7 @@ def make_html():
     <!DOCTYPE html>
     <html lang="en">
     <head>
+        {experiment}
         <meta charset="UTF-8">
         <link rel=stylesheet type=text/css href="static/main.css">
         <title>Nostalgia -> {song} - {artist}</title>
@@ -78,6 +79,23 @@ def results():
 
     html = make_html()
 
+    experiment = """
+    <!-- Google Analytics Content Experiment code -->
+    <script>function utmx_section(){{}}function utmx(){{}}(function(){{var
+    k='152124986-0',d=document,l=d.location,c=d.cookie;
+    if(l.search.indexOf('utm_expid='+k)>0)return;
+    function f(n){{if(c){{var i=c.indexOf(n+'=');if(i>-1){{var j=c.
+    indexOf(';',i);return escape(c.substring(i+n.length+1,j<0?c.
+    length:j))}}}}}}var x=f('__utmx'),xx=f('__utmxx'),h=l.hash;d.write(
+    '<sc'+'ript src="'+'http'+(l.protocol=='https:'?'s://ssl':
+    '://www')+'.google-analytics.com/ga_exp.js?'+'utmxkey='+k+
+    '&utmx='+(x?x:'')+'&utmxx='+(xx?xx:'')+'&utmxtime='+new Date().
+    valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
+    '" type="text/javascript" charset="utf-8"><\/sc'+'ript>')}})();
+    </script><script>utmx('url','A/B');</script>
+    <!-- End of Google Analytics Content Experiment code -->
+    """
+
     body = """
     <p>On <b>{d}-{m}-{y}</b>, the top song was <b>{song}</b> by <b>{artist}</b>.<br>
     Check it out below!</p>
@@ -87,7 +105,51 @@ def results():
     <p><button onclick="javascript:history.back(); ga('send', 'event', 'button', 'back', 'masn697', 10);">Go back</button></p>
     """.format(d=d, m=m, y=y, song=song, artist=artist, id=youtube_id)
 
-    return html.format(song=song, artist=artist, body=body)
+    return html.format(experiment=experiment, song=song, artist=artist, body=body)
+
+
+@app.route('/processv2', methods = ['POST'])
+def resultsv2():
+
+    with open('/home/ubuntu/nostalgia/hot100_dict.p', 'r') as f:
+        hot100 = pickle.load(f)
+
+    y = int(request.form['dob-year'])
+    m = int(request.form['dob-month'])
+    d = int(request.form['dob-day'])
+
+    top_songs = get_top_song([y,m,d], hot100)
+    song = top_songs[1][0]
+    artist = top_songs[1][1]
+
+    youtube_id = get_top_video(song, artist)
+
+    html = make_html()
+
+    experiment = """
+    <!-- Google Analytics Content Experiment code -->
+    <script>function utmx_section(){{}}function utmx(){{}}(function(){{var
+    k='152124986-0',d=document,l=d.location,c=d.cookie;
+    if(l.search.indexOf('utm_expid='+k)>0)return;
+    function f(n){{if(c){{var i=c.indexOf(n+'=');if(i>-1){{var j=c.
+    indexOf(';',i);return escape(c.substring(i+n.length+1,j<0?c.
+    length:j))}}}}}}var x=f('__utmx'),xx=f('__utmxx'),h=l.hash;d.write(
+    '<sc'+'ript src="'+'http'+(l.protocol=='https:'?'s://ssl':
+    '://www')+'.google-analytics.com/ga_exp.js?'+'utmxkey='+k+
+    '&utmx='+(x?x:'')+'&utmxx='+(xx?xx:'')+'&utmxtime='+new Date().
+    valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
+    '" type="text/javascript" charset="utf-8"><\/sc'+'ript>')}})();
+    </script><script>utmx('url','A/B');</script>
+    <!-- End of Google Analytics Content Experiment code -->
+    """
+
+    body = """
+    <p>On <b>{d}-{m}-{y}</b>, the top song was <b>{song}</b> by <b>{artist}</b>.<br>
+    Check it out on <a href="http://www.youtube.com/embed/{id}" target=_blank>Youtube</a>!</p>
+    <p><button onclick="javascript:history.back(); ga('send', 'event', 'button', 'back', 'masn697', 10);">Go back</button></p>
+    """.format(d=d, m=m, y=y, song=song, artist=artist, id=youtube_id)
+
+    return html.format(experiment=experiment, song=song, artist=artist, body=body)
 
 
 if __name__ == '__main__':
