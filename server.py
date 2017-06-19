@@ -40,6 +40,8 @@ def make_html():
           }})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
           ga('create', 'UA-100396571-1', 'auto');
+          ga('set', 'dimension1', 'date-default');
+          ga('set', 'metric1', 1);
           ga('send', 'pageview');
 
         </script>
